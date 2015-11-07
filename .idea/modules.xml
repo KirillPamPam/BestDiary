@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/BestDiary.iml" filepath="$PROJECT_DIR$/BestDiary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DiaryClient/DiaryClient.iml" filepath="$PROJECT_DIR$/DiaryClient/DiaryClient.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ServerDiary/ServerDiary.iml" filepath="$PROJECT_DIR$/ServerDiary/ServerDiary.iml" />
+    </modules>
+  </component>
+</project>

@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact type="ear" name="Test">
+    <output-path>$PROJECT_DIR$/out/artifacts/Test</output-path>
+    <root id="archive" name="Test.ear">
+      <element id="artifact" artifact-name="DiaryClient:war" />
+      <element id="artifact" artifact-name="ServerDiary:war" />
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/Test/META-INF/MANIFEST.MF" />
+      </element>
+    </root>
+  </artifact>
+</component>

@@ -1,0 +1,33 @@
+/** Add css rules here for your application. */
+
+body{
+    text-align: center;
+    font-family: verdana, sans-serif;
+}
+h1{
+    font-size: 30px;
+    font-weight: bold;
+    color: #777777;
+    text-align: center;
+}
+
+.Absolute-Center {
+    width: 50%;
+    height: 50%;
+    overflow: auto;
+    margin: auto;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+}
+.textAreaFontSize{
+    color: black;
+    font-size: 15px;
+    font-style: normal;
+    font-family: Arial, serif;
+    resize: none;
+}
+
+.labelStyle {
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+}

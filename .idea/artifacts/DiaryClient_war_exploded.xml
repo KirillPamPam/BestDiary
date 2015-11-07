@@ -1,0 +1,18 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="DiaryClient:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/DiaryClient</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="DiaryClient/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="DiaryClient" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="file-copy" path="C:/gwt-2.7.0/gwt-servlet.jar" />
+          <element id="library" level="project" name="gwt-user" />
+        </element>
+      </element>
+      <element id="gwt-compiler-output" facet="DiaryClient/gwt/GWT" />
+    </root>
+  </artifact>
+</component>

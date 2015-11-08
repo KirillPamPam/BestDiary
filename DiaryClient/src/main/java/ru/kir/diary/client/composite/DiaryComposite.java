@@ -1,8 +1,6 @@
 package ru.kir.diary.client.composite;
 
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.event.dom.client.*;
 import com.google.gwt.user.client.ui.*;
 import ru.kir.diary.client.base.DiaryGet;
 import ru.kir.diary.client.base.DiarySave;
@@ -15,11 +13,13 @@ import ru.kir.diary.client.common.Table;
 public class DiaryComposite extends Composite {
     private AbsolutePanel absPanel = new AbsolutePanel();
     private Button saveToDB = new Button("Save");
+    private Button newRecord = new Button("New record");
     private TextArea textDiary = new TextArea();
     private TextBox searchTextTheme = new TextBox();
     private TextBox themeText = new TextBox();
     private Table table = new Table();
     private DiaryGet get = new DiaryGet(this, table.getTable(), table.getRecords());
+    private Button allRecords = new Button("All records");
 
     public DiaryComposite() {
         initWidget(absPanel);
@@ -30,10 +30,12 @@ public class DiaryComposite extends Composite {
         table.createTable(this);
         save.saveToBase();
         getDataFromBase();
+        get.getAllRecords();
+        makeNewRecord();
     }
 
     private void addComposite() {
-        absPanel.setSize("100%", "100%");
+        absPanel.setSize("100%", "80%");
         absPanel.setStyleName("Absolute-Center");
         textDiary.setStyleName("textAreaFontSize");
         Label themeSearch = new Label("Searching");
@@ -43,6 +45,10 @@ public class DiaryComposite extends Composite {
         Label yourText = new Label("Text");
         yourText.setStyleName("labelStyle");
         searchTextTheme.getElement().setAttribute("placeholder", "Enter theme or date");
+        ScrollPanel scrollPanel = new ScrollPanel(table.getTable());
+        scrollPanel.setSize("300px", "200px");
+        DecoratorPanel decoratorPanel = new DecoratorPanel();
+        decoratorPanel.add(scrollPanel);
 
         textDiary.setWidth("600px");
         textDiary.setHeight("200px");
@@ -51,11 +57,13 @@ public class DiaryComposite extends Composite {
         absPanel.add(theme, 220, 58);
         absPanel.add(themeText, 220, 78);
         absPanel.add(textDiary, 220, 150);
-        absPanel.add(saveToDB, 490, 380);
+        absPanel.add(saveToDB, 440, 380);
+        absPanel.add(newRecord, 510, 380);
 
-        absPanel.add(table.getTable(), 1000, 120);
+        absPanel.add(decoratorPanel, 1000, 120);
         absPanel.add(themeSearch, 1070, 50);
         absPanel.add(searchTextTheme, 1030, 78);
+        absPanel.add(allRecords, 1210, 78);
     }
 
     public Button getSaveToDB() {
@@ -74,6 +82,10 @@ public class DiaryComposite extends Composite {
         return themeText;
     }
 
+    public Button getAllRecords() {
+        return allRecords;
+    }
+
     private void getDataFromBase() {
         searchTextTheme.addKeyPressHandler(new KeyPressHandler() {
             @Override
@@ -83,6 +95,21 @@ public class DiaryComposite extends Composite {
                         get.getByDate();
                     else get.getByTheme();
                 }
+            }
+        });
+    }
+
+    private void makeNewRecord() {
+        newRecord.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                themeText.setText("");
+                textDiary.setText("");
+
+                themeText.setReadOnly(false);
+                textDiary.setReadOnly(false);
+
+                saveToDB.setEnabled(true);
             }
         });
     }

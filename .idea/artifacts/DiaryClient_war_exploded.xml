@@ -6,6 +6,7 @@
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
           <element id="module-output" name="DiaryClient" />
+          <element id="module-output" name="Common" />
         </element>
         <element id="directory" name="lib">
           <element id="file-copy" path="C:/gwt-2.7.0/gwt-servlet.jar" />

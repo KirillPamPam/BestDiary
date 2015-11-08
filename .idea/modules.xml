@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/BestDiary.iml" filepath="$PROJECT_DIR$/BestDiary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Common/Common.iml" filepath="$PROJECT_DIR$/Common/Common.iml" />
       <module fileurl="file://$PROJECT_DIR$/DiaryClient/DiaryClient.iml" filepath="$PROJECT_DIR$/DiaryClient/DiaryClient.iml" />
       <module fileurl="file://$PROJECT_DIR$/ServerDiary/ServerDiary.iml" filepath="$PROJECT_DIR$/ServerDiary/ServerDiary.iml" />
     </modules>

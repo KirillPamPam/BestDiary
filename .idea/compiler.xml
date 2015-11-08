@@ -22,7 +22,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="BestDiary" />
+        <module name="Common" />
       </profile>
       <profile default="false" name="Annotation profile for DiaryClient" enabled="true">
         <sourceOutputDir name="target\generated-sources\annotations" />
@@ -40,7 +40,8 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.8">
-      <module name="BestDiary" target="1.5" />
+      <module name="BestDiary" target="1.8" />
+      <module name="Common" target="1.8" />
       <module name="DiaryClient" target="1.8" />
       <module name="ServerDiary" target="1.8" />
     </bytecodeTargetLevel>

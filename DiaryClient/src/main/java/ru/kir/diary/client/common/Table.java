@@ -36,11 +36,16 @@ public class Table {
             }
         };
 
-        ActionCell<Record> actionCell = new ActionCell<>("Edit", new ActionCell.Delegate<Record>() {
+        ActionCell<Record> actionCell = new ActionCell<>("View", new ActionCell.Delegate<Record>() {
             @Override
             public void execute(Record object) {
                 composite.getTextDiary().setText(object.getText());
                 composite.getThemeText().setText(object.getTheme());
+
+                composite.getTextDiary().setReadOnly(true);
+                composite.getThemeText().setReadOnly(true);
+
+                composite.getSaveToDB().setEnabled(false);
             }
         });
 

@@ -7,4 +7,6 @@ public interface DiaryGetDao {
     String getTextByDate(String date);
 
     String getTextByTheme(String theme);
+
+    String getAll();
 }

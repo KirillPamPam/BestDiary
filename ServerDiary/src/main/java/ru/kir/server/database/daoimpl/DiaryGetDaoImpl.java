@@ -8,12 +8,11 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import static ru.kir.commons.CommonConstant.*;
 
 /**
  * Created by Kirill Zhitelev on 28.10.2015.
@@ -23,6 +22,7 @@ public class DiaryGetDaoImpl implements DiaryGetDao {
     private Connection connection = DBConnection.getDbConnection().connectionToBase();
     private static final String getByDate = "select * from diary where currentdate = ?";
     private static final String getByTheme = "select * from diary where theme = ?";
+    private static final String getAll = "select * from diary";
 
     @Override
     @GET
@@ -38,10 +38,10 @@ public class DiaryGetDaoImpl implements DiaryGetDao {
 
             while (resultSet.next()) {
                 JSONObject recordObj = new JSONObject();
-                recordObj.put("Id", resultSet.getString(1));
-                recordObj.put("Theme", resultSet.getString(2));
-                recordObj.put("Text", resultSet.getString(3));
-                recordObj.put("Date", resultSet.getString(4));
+                recordObj.put(ID, resultSet.getString(1));
+                recordObj.put(THEME, resultSet.getString(2));
+                recordObj.put(TEXT, resultSet.getString(3));
+                recordObj.put(DATE, resultSet.getString(4));
 
                 records.add(recordObj);
             }
@@ -78,10 +78,10 @@ public class DiaryGetDaoImpl implements DiaryGetDao {
 
             while (resultSet.next()) {
                 JSONObject recordObj = new JSONObject();
-                recordObj.put("Id", resultSet.getString(1));
-                recordObj.put("Theme", resultSet.getString(2));
-                recordObj.put("Text", resultSet.getString(3));
-                recordObj.put("Date", resultSet.getString(4));
+                recordObj.put(ID, resultSet.getString(1));
+                recordObj.put(THEME, resultSet.getString(2));
+                recordObj.put(TEXT, resultSet.getString(3));
+                recordObj.put(DATE, resultSet.getString(4));
 
                 records.add(recordObj);
             }
@@ -97,6 +97,33 @@ public class DiaryGetDaoImpl implements DiaryGetDao {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+        }
+
+        return responseObg.toString();
+    }
+
+    @Override
+    @GET
+    @Path("/all")
+    @Produces("application/json")
+    public String getAll() {
+        JSONObject responseObg = new JSONObject();
+        List<Object> records = new ArrayList<>();
+        try (Statement statement = connection.createStatement();
+                ResultSet resultSet = statement.executeQuery(getAll)) {
+
+            while (resultSet.next()) {
+                JSONObject recordObj = new JSONObject();
+                recordObj.put(ID, resultSet.getString(1));
+                recordObj.put(THEME, resultSet.getString(2));
+                recordObj.put(TEXT, resultSet.getString(3));
+                recordObj.put(DATE, resultSet.getString(4));
+
+                records.add(recordObj);
+            }
+            responseObg.put("records", records);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         return responseObg.toString();

@@ -3,7 +3,7 @@ package ru.kir.commons;
 /**
  * Created by Kirill Zhitelev on 08.11.2015.
  */
-public class CommonConstant {
+public class CommonConstants {
     public static final String TEXT = "Text";
     public static final String THEME = "Theme";
     public static final String DATE = "Date";

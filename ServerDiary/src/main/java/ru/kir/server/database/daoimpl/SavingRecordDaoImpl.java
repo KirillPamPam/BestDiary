@@ -1,7 +1,7 @@
 package ru.kir.server.database.daoimpl;
 
 import ru.kir.server.database.DBConnection;
-import ru.kir.server.database.dao.DiaryInsertDao;
+import ru.kir.server.database.dao.SavingRecordDao;
 
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -14,7 +14,7 @@ import java.sql.SQLException;
  * Created by Kirill Zhitelev on 01.11.2015.
  */
 @Path("/send")
-public class DiaryInsertDaoImpl implements DiaryInsertDao {
+public class SavingRecordDaoImpl implements SavingRecordDao {
     private Connection connection = DBConnection.getDbConnection().connectionToBase();
     private static final String insertRecord = "insert into diary (theme, text, currentdate) values (?,?,?)";
 

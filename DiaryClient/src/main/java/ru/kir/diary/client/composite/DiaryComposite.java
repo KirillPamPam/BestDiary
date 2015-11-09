@@ -2,8 +2,8 @@ package ru.kir.diary.client.composite;
 
 import com.google.gwt.event.dom.client.*;
 import com.google.gwt.user.client.ui.*;
-import ru.kir.diary.client.base.DiaryGet;
-import ru.kir.diary.client.base.DiarySave;
+import ru.kir.diary.client.base.ReceivingRecord;
+import ru.kir.diary.client.base.SavingRecord;
 import ru.kir.diary.client.common.Table;
 
 
@@ -18,14 +18,14 @@ public class DiaryComposite extends Composite {
     private TextBox searchTextTheme = new TextBox();
     private TextBox themeText = new TextBox();
     private Table table = new Table();
-    private DiaryGet get = new DiaryGet(this, table.getTable(), table.getRecords());
+    private ReceivingRecord get = new ReceivingRecord(this, table.getTable(), table.getRecords());
     private Button allRecords = new Button("All records");
 
     public DiaryComposite() {
         initWidget(absPanel);
         addComposite();
 
-        DiarySave save = new DiarySave(this);
+        SavingRecord save = new SavingRecord(this);
 
         table.createTable(this);
         save.saveToBase();
@@ -113,5 +113,7 @@ public class DiaryComposite extends Composite {
             }
         });
     }
+
+
 }
 

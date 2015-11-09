@@ -40,8 +40,8 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.8">
-      <module name="BestDiary" target="1.8" />
-      <module name="Common" target="1.8" />
+      <module name="BestDiary" target="1.5" />
+      <module name="Common" target="1.5" />
       <module name="DiaryClient" target="1.8" />
       <module name="ServerDiary" target="1.8" />
     </bytecodeTargetLevel>

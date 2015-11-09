@@ -12,10 +12,10 @@ import java.util.Date;
 /**
  * Created by Kirill Zhitelev on 01.11.2015.
  */
-public class DiarySave {
+public class SavingRecord {
     private DiaryComposite diaryComposite;
 
-    public DiarySave(DiaryComposite diaryComposite) {
+    public SavingRecord(DiaryComposite diaryComposite) {
         this.diaryComposite = diaryComposite;
     }
 

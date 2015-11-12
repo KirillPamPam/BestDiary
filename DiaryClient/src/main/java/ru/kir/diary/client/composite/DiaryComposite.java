@@ -4,7 +4,11 @@ import com.google.gwt.event.dom.client.*;
 import com.google.gwt.user.client.ui.*;
 import ru.kir.diary.client.base.ReceivingRecord;
 import ru.kir.diary.client.base.SavingRecord;
+import ru.kir.diary.client.common.Record;
 import ru.kir.diary.client.common.Table;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -18,7 +22,8 @@ public class DiaryComposite extends Composite {
     private TextBox searchTextTheme = new TextBox();
     private TextBox themeText = new TextBox();
     private Table table = new Table();
-    private ReceivingRecord get = new ReceivingRecord(this, table.getTable(), table.getRecords());
+    private List<Record> records = new ArrayList<>();
+    private ReceivingRecord get = new ReceivingRecord(this, table.getTable(), records);
     private Button allRecords = new Button("All records");
 
     public DiaryComposite() {
@@ -30,7 +35,6 @@ public class DiaryComposite extends Composite {
         table.createTable(this);
         save.saveToBase();
         getDataFromBase();
-        get.getAllRecords();
         makeNewRecord();
     }
 
@@ -74,27 +78,28 @@ public class DiaryComposite extends Composite {
         return textDiary;
     }
 
-    public TextBox getSearchTextTheme() {
-        return searchTextTheme;
-    }
-
     public TextBox getThemeText() {
         return themeText;
-    }
-
-    public Button getAllRecords() {
-        return allRecords;
     }
 
     private void getDataFromBase() {
         searchTextTheme.addKeyPressHandler(new KeyPressHandler() {
             @Override
             public void onKeyPress(KeyPressEvent event) {
-                if(event.getCharCode() == KeyCodes.KEY_ENTER) {
-                    if(searchTextTheme.getText().matches("(\\d{2}\\.){2}\\d{4}"))
-                        get.getByDate();
-                    else get.getByTheme();
+                if (event.getCharCode() == KeyCodes.KEY_ENTER) {
+                    if (searchTextTheme.getText().matches("(\\d{2}\\.){2}\\d{4}")) {
+                        get.getByDate(searchTextTheme.getText());
+                    } else {
+                        get.getByTheme(searchTextTheme.getText());
+                    }
                 }
+            }
+        });
+        allRecords.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                searchTextTheme.setText("");
+                get.getAllRecords();
             }
         });
     }
@@ -113,7 +118,5 @@ public class DiaryComposite extends Composite {
             }
         });
     }
-
-
 }
 

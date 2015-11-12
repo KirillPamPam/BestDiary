@@ -1,7 +1,5 @@
 package ru.kir.diary.client.base;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.http.client.*;
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONObject;
@@ -20,6 +18,7 @@ import static ru.kir.commons.CommonConstants.*;
  * Created by Kirill Zhitelev on 01.11.2015.
  */
 public class ReceivingRecord {
+    private static final String PATH = "/ServerDiary_war/diary/records";
     private DiaryComposite diaryComposite;
     private CellTable<Record> table;
     private List<Record> records;
@@ -30,29 +29,19 @@ public class ReceivingRecord {
         this.records = records;
     }
 
-    public void getByTheme() {
-        String url = "/ServerDiary_war/diary/records/theme?" +
-                "theme=" + diaryComposite.getSearchTextTheme().getText();
+    public void getByTheme(String theme) {
+        String url = PATH + "/theme?" + "theme=" + theme;
         getData(url);
     }
 
-    public void getByDate() {
-        String url = "/ServerDiary_war/diary/records/date?" +
-                "date=" + makeBaseDate(diaryComposite.getSearchTextTheme().getText());
+    public void getByDate(String date) {
+        String url = PATH + "/date?" + "date=" + date;
         getData(url);
     }
 
     public void getAllRecords() {
-        diaryComposite.getAllRecords().addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                diaryComposite.getSearchTextTheme().setText("");
-
-                String url = "/ServerDiary_war/diary/records/all";
-
-                getData(url);
-            }
-        });
+        String url = PATH + "/all";
+        getData(url);
     }
 
     private void getData(String url) {
@@ -69,9 +58,9 @@ public class ReceivingRecord {
 
                         JSONValue jsonValue = JSONParser.parseStrict(response.getText());
 
-                        boolean ckeckSize = fromJsonToRecord(jsonValue, records, table);
+                        boolean checkSize = fromJsonToRecord(jsonValue, records, table);
 
-                        if(!ckeckSize) {
+                        if(!checkSize) {
                             Window.alert("No results");
                             diaryComposite.getTextDiary().setText("");
                             diaryComposite.getThemeText().setText("");
@@ -86,24 +75,7 @@ public class ReceivingRecord {
         } catch (RequestException e) {
             Window.alert("Sorry, couldn't connect to server, please, try later");
         }
-    }
 
-    private String makeBaseDate(String date) {
-        StringBuilder builder = new StringBuilder(date);
-
-        builder.deleteCharAt(2);
-        builder.deleteCharAt(4);
-
-        return String.valueOf(builder);
-    }
-
-    private static String makeDate(String date) {
-        StringBuilder builder = new StringBuilder(date);
-
-        builder.insert(2, '.');
-        builder.insert(5, '.');
-
-        return String.valueOf(builder);
     }
 
     private static boolean fromJsonToRecord(JSONValue value, List<Record> records, CellTable<Record> table) {
@@ -114,7 +86,7 @@ public class ReceivingRecord {
             for (int i = 0; i < jsonArray.size(); i++) {
                 records.add(new Record(jsonArray.get(i).isObject().get(THEME).isString().stringValue(),
                         jsonArray.get(i).isObject().get(TEXT).isString().stringValue(),
-                        makeDate(jsonArray.get(i).isObject().get(DATE).isString().stringValue())));
+                        jsonArray.get(i).isObject().get(DATE).isString().stringValue()));
             }
             table.setRowData(0, records);
             return true;

@@ -8,4 +8,5 @@ public class CommonConstants {
     public static final String THEME = "Theme";
     public static final String DATE = "Date";
     public static final String ID = "Id";
+    public static final String RECORDS = "records";
 }

@@ -7,15 +7,11 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.TextColumn;
 import ru.kir.diary.client.composite.DiaryComposite;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by Kirill Zhitelev on 04.11.2015.
  */
 public class Table {
     private CellTable<Record> table = new CellTable<>();
-    private List<Record> records = new ArrayList<>();
 
     public void createTable(final DiaryComposite composite) {
 
@@ -62,15 +58,10 @@ public class Table {
         table.addColumn(actionCol, "Edit");
         table.setColumnWidth(actionCol, 60, Style.Unit.PX);
 
-        table.setRowCount(records.size());
-        table.setRowData(0, records);
+        table.setRowCount(0);
     }
 
     public CellTable<Record> getTable() {
         return table;
-    }
-
-    public List<Record> getRecords() {
-        return records;
     }
 }

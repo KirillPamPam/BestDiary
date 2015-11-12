@@ -35,5 +35,9 @@
     <orderEntry type="library" name="gwt-user" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="GlassFish 4.1.0" level="application_server_libraries" />
     <orderEntry type="module" module-name="Common" />
+    <orderEntry type="library" name="Maven: com.google.gwt:gwt-servlet:2.7.0" level="project" />
+    <orderEntry type="library" name="Maven: com.google.gwt:gwt-user:2.7.0" level="project" />
+    <orderEntry type="library" name="Maven: javax.validation:validation-api:1.0.0.GA" level="project" />
+    <orderEntry type="library" name="Maven: javax.validation:validation-api:sources:1.0.0.GA" level="project" />
   </component>
 </module>

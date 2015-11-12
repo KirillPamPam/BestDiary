@@ -93,6 +93,6 @@ public class ReceivingRecordDaoImpl implements ReceivingRecordDao {
 
             records.add(recordObj);
         }
-        responseObj.put("records", records);
+        responseObj.put(RECORDS, records);
     }
 }

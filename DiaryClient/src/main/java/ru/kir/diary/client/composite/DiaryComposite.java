@@ -1,10 +1,11 @@
 package ru.kir.diary.client.composite;
 
 import com.google.gwt.event.dom.client.*;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.*;
-import ru.kir.diary.client.base.ReceivingRecord;
-import ru.kir.diary.client.base.SavingRecord;
+import ru.kir.diary.client.base.ClientRecordService;
 import ru.kir.diary.client.common.Record;
+import ru.kir.diary.client.common.RecordsCallback;
 import ru.kir.diary.client.common.Table;
 
 import java.util.ArrayList;
@@ -23,17 +24,15 @@ public class DiaryComposite extends Composite {
     private TextBox themeText = new TextBox();
     private Table table = new Table();
     private List<Record> records = new ArrayList<>();
-    private ReceivingRecord get = new ReceivingRecord(this, table.getTable(), records);
+    private ClientRecordService service = new ClientRecordService(table.getTable(), records);
     private Button allRecords = new Button("All records");
 
     public DiaryComposite() {
         initWidget(absPanel);
         addComposite();
 
-        SavingRecord save = new SavingRecord(this);
-
         table.createTable(this);
-        save.saveToBase();
+        saveToBase();
         getDataFromBase();
         makeNewRecord();
     }
@@ -70,6 +69,100 @@ public class DiaryComposite extends Composite {
         absPanel.add(allRecords, 1210, 78);
     }
 
+    private void getDataFromBase() {
+        searchTextTheme.addKeyPressHandler(new KeyPressHandler() {
+            @Override
+            public void onKeyPress(KeyPressEvent event) {
+                if (event.getCharCode() == KeyCodes.KEY_ENTER) {
+                    if (searchTextTheme.getText().matches("(\\d{2}\\.){2}\\d{4}")) {
+                        service.getData(getByDate(), new RecordsCallback() {
+                            @Override
+                            public void call(List<Record> records) {
+                                if (records.isEmpty()) {
+                                    makeWarning();
+                                }
+                            }
+                        });
+                    } else {
+                        service.getData(getByTheme(), new RecordsCallback() {
+                            @Override
+                            public void call(List<Record> records) {
+                                if (records.isEmpty()) {
+                                    makeWarning();
+                                }
+                            }
+                        });
+                    }
+                }
+            }
+        });
+        allRecords.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                service.getData(getAll(), new RecordsCallback() {
+                    @Override
+                    public void call(List<Record> records) {
+                        if (records.isEmpty()) {
+                            makeWarning();
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    private void saveToBase() {
+        saveToDB.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                if (themeText.getText().equals("") || textDiary.getText().equals(""))
+                    Window.alert("Please, enter text and theme");
+                service.saveToBase(themeText.getText(), textDiary.getText(), new RecordsCallback() {
+                    @Override
+                    public void call(List<Record> records) {
+                        Window.alert("Saved");
+                        setEmptyText();
+                    }
+                });
+            }
+        });
+    }
+
+    private void makeNewRecord() {
+        newRecord.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                setEmptyText();
+
+                themeText.setReadOnly(false);
+                textDiary.setReadOnly(false);
+
+                saveToDB.setEnabled(true);
+            }
+        });
+    }
+
+    private void makeWarning() {
+        Window.alert("No results");
+    }
+
+    private void setEmptyText() {
+        themeText.setText("");
+        textDiary.setText("");
+    }
+
+    private String getByTheme() {
+        return "/theme?theme="+searchTextTheme.getText();
+    }
+
+    private String getByDate() {
+        return "/date?date=" + searchTextTheme.getText();
+    }
+
+    private String getAll() {
+        return "/all";
+    }
+
     public Button getSaveToDB() {
         return saveToDB;
     }
@@ -80,43 +173,6 @@ public class DiaryComposite extends Composite {
 
     public TextBox getThemeText() {
         return themeText;
-    }
-
-    private void getDataFromBase() {
-        searchTextTheme.addKeyPressHandler(new KeyPressHandler() {
-            @Override
-            public void onKeyPress(KeyPressEvent event) {
-                if (event.getCharCode() == KeyCodes.KEY_ENTER) {
-                    if (searchTextTheme.getText().matches("(\\d{2}\\.){2}\\d{4}")) {
-                        get.getByDate(searchTextTheme.getText());
-                    } else {
-                        get.getByTheme(searchTextTheme.getText());
-                    }
-                }
-            }
-        });
-        allRecords.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                searchTextTheme.setText("");
-                get.getAllRecords();
-            }
-        });
-    }
-
-    private void makeNewRecord() {
-        newRecord.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(ClickEvent event) {
-                themeText.setText("");
-                textDiary.setText("");
-
-                themeText.setReadOnly(false);
-                textDiary.setReadOnly(false);
-
-                saveToDB.setEnabled(true);
-            }
-        });
     }
 }
 

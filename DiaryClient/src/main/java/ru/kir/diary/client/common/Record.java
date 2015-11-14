@@ -12,8 +12,6 @@ public class Record {
         this.text = text;
     }
 
-
-
     public String getTheme() {
         return theme;
     }

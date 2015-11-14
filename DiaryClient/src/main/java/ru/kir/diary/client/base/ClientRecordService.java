@@ -6,7 +6,6 @@ import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONValue;
-import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.client.Window;
 import ru.kir.diary.client.common.Record;
 import ru.kir.diary.client.common.RecordsCallback;
@@ -22,11 +21,9 @@ import static ru.kir.commons.CommonConstants.*;
 public class ClientRecordService {
     private static final String PATH_GET = "/ServerDiary_war/diary/records";
     private static final String PATH_SAVE = "/ServerDiary_war/diary/records/transfer?";
-    private CellTable<Record> table;
     private List<Record> records;
 
-    public ClientRecordService(CellTable<Record> table, List<Record> records) {
-        this.table = table;
+    public ClientRecordService(List<Record> records) {
         this.records = records;
     }
 
@@ -38,11 +35,11 @@ public class ClientRecordService {
                 public void onResponseReceived(Request request, Response response) {
                     if (response.getStatusCode() == 200) {
                         records.clear();
-                        table.setRowCount(0);
+                     //   table.setRowCount(0);
 
                         JSONValue jsonValue = JSONParser.parseStrict(response.getText());
 
-                        records = fromJsonToRecord(jsonValue, records, table);
+                        records = fromJsonToRecord(jsonValue, records);
 
                         callback.call(records);
 
@@ -59,7 +56,7 @@ public class ClientRecordService {
         }
     }
 
-    private static List<Record> fromJsonToRecord(JSONValue value, List<Record> records, CellTable<Record> table) {
+    private static List<Record> fromJsonToRecord(JSONValue value, List<Record> records) {
         JSONObject jsonObject = value.isObject();
         JSONArray jsonArray = jsonObject.get("records").isArray();
 
@@ -69,7 +66,7 @@ public class ClientRecordService {
                         jsonArray.get(i).isObject().get(TEXT).isString().stringValue(),
                         jsonArray.get(i).isObject().get(DATE).isString().stringValue()));
             }
-            table.setRowData(0, records);
+          //  table.setRowData(0, records);
         }
         return records;
     }

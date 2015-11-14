@@ -24,7 +24,7 @@ public class DiaryComposite extends Composite {
     private TextBox themeText = new TextBox();
     private Table table = new Table();
     private List<Record> records = new ArrayList<>();
-    private ClientRecordService service = new ClientRecordService(table.getTable(), records);
+    private ClientRecordService service = new ClientRecordService(records);
     private Button allRecords = new Button("All records");
 
     public DiaryComposite() {
@@ -74,6 +74,7 @@ public class DiaryComposite extends Composite {
             @Override
             public void onKeyPress(KeyPressEvent event) {
                 if (event.getCharCode() == KeyCodes.KEY_ENTER) {
+                    table.getTable().setRowCount(0);
                     if (searchTextTheme.getText().matches("(\\d{2}\\.){2}\\d{4}")) {
                         service.getData(getByDate(), new RecordsCallback() {
                             @Override
@@ -81,6 +82,7 @@ public class DiaryComposite extends Composite {
                                 if (records.isEmpty()) {
                                     makeWarning();
                                 }
+                                table.getTable().setRowData(0, records);
                             }
                         });
                     } else {
@@ -90,6 +92,7 @@ public class DiaryComposite extends Composite {
                                 if (records.isEmpty()) {
                                     makeWarning();
                                 }
+                                table.getTable().setRowData(0, records);
                             }
                         });
                     }
@@ -99,12 +102,15 @@ public class DiaryComposite extends Composite {
         allRecords.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
+                table.getTable().setRowCount(0);
+                searchTextTheme.setText("");
                 service.getData(getAll(), new RecordsCallback() {
                     @Override
                     public void call(List<Record> records) {
                         if (records.isEmpty()) {
                             makeWarning();
                         }
+                        table.getTable().setRowData(0, records);
                     }
                 });
             }

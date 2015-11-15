@@ -24,7 +24,7 @@ public class DBConnection {
         return dbConnection;
     }
 
-    public Connection connectionToBase() {
+    public Connection connectToBase() {
         try {
             connection = DriverManager.getConnection(URL, LOGIN, PASS);
         } catch (SQLException e) {

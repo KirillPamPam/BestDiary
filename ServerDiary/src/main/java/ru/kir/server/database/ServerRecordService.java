@@ -17,7 +17,7 @@ import static ru.kir.commons.CommonConstants.*;
  */
 @Path("/records")
 public class ServerRecordService {
-    private Connection connection = DBConnection.getDbConnection().connectionToBase();
+    private Connection connection = DBConnection.getDbConnection().connectToBase();
     private static final String getByDate = "select * from diary where currentdate = ?";
     private static final String getByTheme = "select * from diary where theme = ?";
     private static final String getAll = "select * from diary";

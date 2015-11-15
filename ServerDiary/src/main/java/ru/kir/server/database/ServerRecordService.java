@@ -18,36 +18,36 @@ import static ru.kir.commons.CommonConstants.*;
 @Path("/records")
 public class ServerRecordService {
     private Connection connection = DBConnection.getDbConnection().connectToBase();
-    private static final String getByDate = "select * from diary where currentdate = ?";
-    private static final String getByTheme = "select * from diary where theme = ?";
-    private static final String getAll = "select * from diary";
-    private static final String insertRecord = "insert into diary (theme, text, currentdate) values (?,?,?)";
+    private static final String QUERY_BY_DATE = "select * from diary where currentdate = ?";
+    private static final String QUERY_BY_THEME = "select * from diary where theme = ?";
+    private static final String QUERY_ALL = "select * from diary";
+    private static final String QUERY_INTO_BASE = "insert into diary (theme, text, currentdate) values (?,?,?)";
 
     @GET
     @Path("/date")
     @Produces("application/json")
     public String getTextByDate(@QueryParam("date") String date) {
-        return getRecords(date, getByDate);
+        return getRecords(date, QUERY_BY_DATE);
     }
 
     @GET
     @Path("/theme")
     @Produces("application/json")
     public String getTextByTheme(@QueryParam("theme")String theme) {
-        return getRecords(theme, getByTheme);
+        return getRecords(theme, QUERY_BY_THEME);
     }
 
     @GET
     @Path("/all")
     @Produces("application/json")
     public String getAll() {
-        return getRecords(null, getAll);
+        return getRecords(null, QUERY_ALL);
     }
 
     @POST
     @Path("/transfer")
     public void insertRecord(@QueryParam("theme")String theme, @QueryParam("text")String text, @QueryParam("date")String currentDate) {
-        try (PreparedStatement preparedStatement = connection.prepareStatement(insertRecord)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(QUERY_INTO_BASE)) {
             preparedStatement.setString(1, theme);
             preparedStatement.setString(2, text);
             preparedStatement.setString(3, currentDate);
